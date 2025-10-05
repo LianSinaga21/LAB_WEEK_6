@@ -1,0 +1,44 @@
+package com.example.lab_week_6
+
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.lab_week_6.model.CatModel
+import com.example.lab_week_6.model.CatBreed
+import com.example.lab_week_6.model.Gender
+
+private val FEMALE_SYMBOL = "\u2640" // ♀
+private val MALE_SYMBOL = "\u2642"   // ♂
+private const val UNKNOWN_SYMBOL = "?"
+
+class CatViewHolder(
+    containerView: View,
+    private val imageLoader: ImageLoader
+) : RecyclerView.ViewHolder(containerView) {
+
+    private val catBiographyView: TextView = containerView.findViewById(R.id.cat_biography)
+    private val catBreedView: TextView = containerView.findViewById(R.id.cat_breed)
+    private val catGenderView: TextView = containerView.findViewById(R.id.cat_gender)
+    private val catNameView: TextView = containerView.findViewById(R.id.cat_name)
+    private val catPhotoView: ImageView = containerView.findViewById(R.id.cat_photo)
+
+    fun bindData(cat: CatModel) {
+        imageLoader.loadImage(cat.imageUrl, catPhotoView)
+        catNameView.text = cat.name
+
+        catBreedView.text = when (cat.breed) {
+            CatBreed.AmericanCurl -> "American Curl"
+            CatBreed.BalineseJavanese -> "Balinese-Javanese"
+            CatBreed.ExoticShorthair -> "Exotic Shorthair"
+        }
+
+        catBiographyView.text = cat.biography
+
+        catGenderView.text = when (cat.gender) {
+            Gender.Female -> FEMALE_SYMBOL
+            Gender.Male -> MALE_SYMBOL
+            Gender.Unknown -> UNKNOWN_SYMBOL
+        }
+    }
+}
